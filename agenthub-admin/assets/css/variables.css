@@ -1,0 +1,63 @@
+:root {
+  --bg-base: #f4f4f5;
+  --bg-surface: #ffffff;
+  --bg-elevated: #fafafa;
+  --border: #e4e4e7;
+  --text-primary: #18181b;
+  --text-secondary: #71717a;
+  --text-muted: #a1a1aa;
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --danger: #dc2626;
+  --warning: #d97706;
+  --success: #16a34a;
+  --sidebar-bg: #18181b;
+  --sidebar-text: #e4e4e7;
+  --sidebar-muted: #71717a;
+  --sidebar-active: #2563eb;
+}
+
+.dark {
+  --bg-base: #09090b;
+  --bg-surface: #18181b;
+  --bg-elevated: #27272a;
+  --border: #3f3f46;
+  --text-primary: #fafafa;
+  --text-secondary: #a1a1aa;
+  --text-muted: #71717a;
+  --sidebar-bg: #09090b;
+}
+
+* {
+  font-family: "IBM Plex Sans", sans-serif;
+}
+
+.font-mono-display {
+  font-family: "DM Mono", monospace;
+}
+
+.font-code {
+  font-family: "JetBrains Mono", monospace;
+}
+
+.skill-list {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-in-out;
+}
+
+.skill-list.expanded {
+  max-height: 200px;
+}
+
+.modal-panel {
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.dropdown-menu {
+  display: none;
+}
+
+.dropdown-menu.open {
+  display: block;
+}

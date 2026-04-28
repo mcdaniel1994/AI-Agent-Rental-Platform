@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en" class="transition-colors duration-300">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgentHub Admin</title>
+  <link rel="stylesheet" href="assets/css/variables.css">
+  <script>
+    tailwind.config = { darkMode: "class" };
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body class="flex h-screen overflow-hidden bg-[var(--bg-base)] text-[var(--text-primary)]">
+  <aside id="sidebar" class="fixed left-0 top-0 h-full w-60 flex-shrink-0 bg-[var(--sidebar-bg)] border-r border-white/5 flex flex-col">
+    <div class="h-14 px-4 flex items-center gap-2 border-b border-white/10">
+      <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5 text-white">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 3.75h9l4.5 7.5-4.5 7.5h-9L3 11.25l4.5-7.5Z" />
+        <circle cx="12" cy="11.25" r="2.25" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      <span class="font-mono-display text-white text-sm tracking-wide">AgentHub</span>
+    </div>
+
+    <nav class="mt-4 px-2 space-y-1">
+      <button id="nav-dashboard" type="button" role="button" class="w-full flex items-center gap-3 px-4 py-2.5 rounded-r-md border-l-2 border-[var(--sidebar-active)] bg-white/10 text-white transition-colors duration-150 cursor-pointer">
+        <span id="icon-nav-dashboard" class="inline-flex"></span>
+        <span class="text-sm font-medium">Dashboard</span>
+      </button>
+      <button id="nav-users" type="button" role="button" class="w-full flex items-center gap-3 px-4 py-2.5 rounded-r-md border-l-2 border-transparent text-[var(--sidebar-muted)] hover:bg-white/5 hover:text-white transition-colors duration-150 cursor-pointer">
+        <span id="icon-nav-users" class="inline-flex"></span>
+        <span class="text-sm font-medium">User Management</span>
+      </button>
+      <button id="nav-agents" type="button" role="button" class="w-full flex items-center gap-3 px-4 py-2.5 rounded-r-md border-l-2 border-transparent text-[var(--sidebar-muted)] hover:bg-white/5 hover:text-white transition-colors duration-150 cursor-pointer">
+        <span id="icon-nav-agents" class="inline-flex"></span>
+        <span class="text-sm font-medium">Agent Management</span>
+      </button>
+      <button id="nav-skills" type="button" role="button" class="w-full flex items-center gap-3 px-4 py-2.5 rounded-r-md border-l-2 border-transparent text-[var(--sidebar-muted)] hover:bg-white/5 hover:text-white transition-colors duration-150 cursor-pointer">
+        <span id="icon-nav-skills" class="inline-flex"></span>
+        <span class="text-sm font-medium">Skills</span>
+      </button>
+      <button id="nav-contracts" type="button" role="button" class="w-full flex items-center gap-3 px-4 py-2.5 rounded-r-md border-l-2 border-transparent text-[var(--sidebar-muted)] hover:bg-white/5 hover:text-white transition-colors duration-150 cursor-pointer">
+        <span id="icon-nav-contracts" class="inline-flex"></span>
+        <span class="text-sm font-medium">Agent Contracts</span>
+      </button>
+      <button id="nav-errors" type="button" role="button" class="w-full flex items-center gap-3 px-4 py-2.5 rounded-r-md border-l-2 border-transparent text-[var(--sidebar-muted)] hover:bg-white/5 hover:text-white transition-colors duration-150 cursor-pointer">
+        <span id="icon-nav-errors" class="inline-flex"></span>
+        <span class="text-sm font-medium">Error Log</span>
+      </button>
+    </nav>
+
+    <div class="mt-auto px-4 py-4 text-xs text-[var(--sidebar-muted)] border-t border-white/10">
+      v0.1.0-prototype
+    </div>
+  </aside>
+
+  <div class="ml-60 flex flex-col h-full overflow-hidden min-w-0 w-[calc(100%-15rem)]">
+    <header id="topbar" class="h-14 flex items-center justify-between px-6 border-b bg-[var(--bg-surface)] border-[var(--border)] flex-shrink-0">
+      <h1 id="topbar-title" class="text-sm font-semibold text-[var(--text-primary)]">Dashboard</h1>
+      <button id="dark-mode-toggle" type="button" class="rounded-full px-3 py-1.5 border border-[var(--border)] bg-[var(--bg-elevated)] text-[var(--text-primary)] flex items-center gap-2 hover:bg-[var(--bg-surface)] transition-colors duration-150 cursor-pointer">
+        <span id="dark-mode-icon" class="inline-flex"></span>
+        <span id="dark-mode-label" class="text-xs font-medium">Dark</span>
+      </button>
+    </header>
+
+    <main id="page-body" class="flex-1 overflow-y-auto p-8 min-w-0">
+      <section id="section-dashboard">
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+          <article class="bg-[var(--bg-surface)] border border-[var(--border)] rounded-lg p-5 shadow-sm">
+            <div class="flex items-center justify-between">
+              <p class="text-xs font-medium text-[var(--text-secondary)] uppercase tracking-wide">Total Revenue</p>
+              <span id="metric-icon-revenue" class="text-[var(--text-muted)]"></span>
+            </div>
+            <p class="text-3xl font-semibold font-code text-[var(--text-primary)] mt-2">$84,320</p>
+            <p class="text-xs text-[var(--text-muted)] mt-1">This month</p>
+          </article>
+
+          <article class="bg-[var(--bg-surface)] border border-[var(--border)] rounded-lg p-5 shadow-sm">
+            <div class="flex items-center justify-between">
+              <p class="text-xs font-medium text-[var(--text-secondary)] uppercase tracking-wide">Discount &amp; Coupon Losses</p>
+              <span id="metric-icon-discount" class="text-[var(--text-muted)]"></span>
+            </div>
+            <p class="text-3xl font-semibold font-code text-[var(--warning)] mt-2">$3,180</p>
+            <p class="text-xs text-[var(--text-muted)] mt-1">This month</p>
+          </article>
+
+          <article class="bg-[var(--bg-surface)] border border-[var(--border)] rounded-lg p-5 shadow-sm">
+            <div class="flex items-center justify-between">
+              <p class="text-xs font-medium text-[var(--text-secondary)] uppercase tracking-wide">Active Agents</p>
+              <span id="metric-icon-active" class="text-[var(--text-muted)]"></span>
+            </div>
+            <p class="text-3xl font-semibold font-code text-[var(--text-primary)] mt-2">142</p>
+            <p class="text-xs text-[var(--text-muted)] mt-1">Across all clients</p>
+          </article>
+
+          <article class="bg-[var(--bg-surface)] border border-[var(--border)] rounded-lg p-5 shadow-sm">
+            <div class="flex items-center justify-between">
+              <p class="text-xs font-medium text-[var(--text-secondary)] uppercase tracking-wide">Failing Agents</p>
+              <span id="metric-icon-failing" class="text-[var(--text-muted)]"></span>
+            </div>
+            <p class="text-3xl font-semibold font-code text-[var(--danger)] mt-2">7</p>
+            <p class="text-xs text-[var(--text-muted)] mt-1">Currently flagged</p>
+          </article>
+        </div>
+
+        <article class="bg-[var(--bg-surface)] border border-[var(--border)] rounded-lg p-5 mt-6 shadow-sm">
+          <h2 class="text-sm font-semibold text-[var(--text-primary)]">Weekly Activity</h2>
+          <div class="mt-4 overflow-x-auto">
+            <svg viewBox="0 0 760 230" class="w-full h-[220px] min-w-[700px]" role="img" aria-label="Weekly activity chart">
+              <line x1="70" y1="30" x2="70" y2="185" stroke="var(--border)" stroke-width="1" />
+              <line x1="70" y1="185" x2="730" y2="185" stroke="var(--border)" stroke-width="1" />
+
+              <line x1="70" y1="50" x2="730" y2="50" stroke="var(--border)" stroke-width="1" stroke-dasharray="4 4" />
+              <line x1="70" y1="90" x2="730" y2="90" stroke="var(--border)" stroke-width="1" stroke-dasharray="4 4" />
+              <line x1="70" y1="130" x2="730" y2="130" stroke="var(--border)" stroke-width="1" stroke-dasharray="4 4" />
+
+              <text x="34" y="188" font-size="11" fill="var(--text-muted)">0</text>
+              <text x="28" y="133" font-size="11" fill="var(--text-muted)">50</text>
+              <text x="24" y="93" font-size="11" fill="var(--text-muted)">100</text>
+              <text x="20" y="53" font-size="11" fill="var(--text-muted)">150</text>
+
+              <rect x="95" y="76" width="22" height="109" rx="3" fill="var(--accent)" />
+              <rect x="121" y="160" width="12" height="25" rx="3" fill="var(--danger)" />
+
+              <rect x="180" y="66" width="22" height="119" rx="3" fill="var(--accent)" />
+              <rect x="206" y="152" width="12" height="33" rx="3" fill="var(--danger)" />
+
+              <rect x="265" y="58" width="22" height="127" rx="3" fill="var(--accent)" />
+              <rect x="291" y="142" width="12" height="43" rx="3" fill="var(--danger)" />
+
+              <rect x="350" y="82" width="22" height="103" rx="3" fill="var(--accent)" />
+              <rect x="376" y="166" width="12" height="19" rx="3" fill="var(--danger)" />
+
+              <rect x="435" y="70" width="22" height="115" rx="3" fill="var(--accent)" />
+              <rect x="461" y="156" width="12" height="29" rx="3" fill="var(--danger)" />
+
+              <rect x="520" y="48" width="22" height="137" rx="3" fill="var(--accent)" />
+              <rect x="546" y="138" width="12" height="47" rx="3" fill="var(--danger)" />
+
+              <rect x="605" y="62" width="22" height="123" rx="3" fill="var(--accent)" />
+              <rect x="631" y="150" width="12" height="35" rx="3" fill="var(--danger)" />
+
+              <text x="97" y="206" font-size="11" fill="var(--text-muted)">Mon</text>
+              <text x="182" y="206" font-size="11" fill="var(--text-muted)">Tue</text>
+              <text x="267" y="206" font-size="11" fill="var(--text-muted)">Wed</text>
+              <text x="352" y="206" font-size="11" fill="var(--text-muted)">Thu</text>
+              <text x="437" y="206" font-size="11" fill="var(--text-muted)">Fri</text>
+              <text x="522" y="206" font-size="11" fill="var(--text-muted)">Sat</text>
+              <text x="607" y="206" font-size="11" fill="var(--text-muted)">Sun</text>
+            </svg>
+          </div>
+          <div class="mt-3 flex items-center gap-5 text-xs text-[var(--text-secondary)]">
+            <span class="inline-flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-[var(--accent)]"></span>Agent Runs</span>
+            <span class="inline-flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-[var(--danger)]"></span>Errors</span>
+          </div>
+        </article>
+      </section>
+
+      <section id="section-users" class="hidden">
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center gap-2">
+            <h2 class="text-lg font-semibold text-[var(--text-primary)]">Users</h2>
+            <span class="text-xs bg-[var(--bg-elevated)] text-[var(--text-secondary)] px-2 py-0.5 rounded-full">8 records</span>
+          </div>
+        </div>
+        <div class="bg-[var(--bg-surface)] border border-[var(--border)] rounded-lg overflow-x-auto shadow-sm">
+          <table class="w-full min-w-[780px] text-sm border-collapse">
+            <thead>
+              <tr class="bg-[var(--bg-elevated)] text-[var(--text-secondary)] text-xs uppercase tracking-wide">
+                <th class="px-4 py-3 text-left font-medium">Name</th>
+                <th class="px-4 py-3 text-left font-medium">Email</th>
+                <th class="px-4 py-3 text-left font-medium">Plan</th>
+                <th class="px-4 py-3 text-left font-medium">Status</th>
+                <th class="px-4 py-3 text-right font-medium">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-users"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="section-agents" class="hidden">
+        <div class="flex items-center gap-2 mb-4">
+          <h2 class="text-lg font-semibold text-[var(--text-primary)]">Agents</h2>
+          <span class="text-xs bg-[var(--bg-elevated)] text-[var(--text-secondary)] px-2 py-0.5 rounded-full">6 deployed</span>
+        </div>
+        <div id="agent-list"></div>
+      </section>
+
+      <section id="section-skills" class="hidden">
+        <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-4">Skills</h2>
+        <div class="bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-6 flex items-start gap-3">
+          <span id="icon-skills-banner" class="text-blue-700 dark:text-blue-300 mt-0.5"></span>
+          <p class="text-sm text-blue-800 dark:text-blue-300">
+            Skills are discrete capabilities that can be attached to AI agents. Each skill grants an agent access to a specific tool or action - such as browsing the internet, reading uploaded documents, or managing calendar events. Skills are configured at the platform level and selectively enabled per agent contract.
+          </p>
+        </div>
+        <div class="bg-[var(--bg-surface)] border border-[var(--border)] rounded-lg overflow-x-auto shadow-sm">
+          <table class="w-full min-w-[920px] text-sm border-collapse">
+            <thead>
+              <tr class="bg-[var(--bg-elevated)] text-[var(--text-secondary)] text-xs uppercase tracking-wide">
+                <th class="px-4 py-3 text-left font-medium">Skill Name</th>
+                <th class="px-4 py-3 text-left font-medium">Description</th>
+                <th class="px-4 py-3 text-left font-medium">Agents Enabled</th>
+                <th class="px-4 py-3 text-right font-medium">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-skills"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="section-contracts" class="hidden">
+        <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-4">Agent Contracts</h2>
+        <div class="bg-[var(--bg-surface)] border border-[var(--border)] rounded-lg overflow-x-auto shadow-sm">
+          <table class="w-full min-w-[1080px] text-sm border-collapse">
+            <thead>
+              <tr class="bg-[var(--bg-elevated)] text-[var(--text-secondary)] text-xs uppercase tracking-wide">
+                <th class="px-4 py-3 text-left font-medium">Client</th>
+                <th class="px-4 py-3 text-left font-medium">Agent</th>
+                <th class="px-4 py-3 text-left font-medium">Contracted Skills</th>
+                <th class="px-4 py-3 text-left font-medium">Start Date</th>
+                <th class="px-4 py-3 text-left font-medium">End Date</th>
+                <th class="px-4 py-3 text-left font-medium">Total Paid</th>
+                <th class="px-4 py-3 text-right font-medium">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-contracts"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="section-errors" class="hidden">
+        <h2 class="text-lg font-semibold text-[var(--text-primary)] mb-4">Error Log</h2>
+        <div class="bg-[var(--bg-surface)] border border-[var(--border)] rounded-lg overflow-x-auto shadow-sm">
+          <table class="w-full min-w-[1180px] text-sm border-collapse">
+            <thead>
+              <tr class="bg-[var(--bg-elevated)] text-[var(--text-secondary)] text-xs uppercase tracking-wide">
+                <th class="px-4 py-3 text-left font-medium">Timestamp</th>
+                <th class="px-4 py-3 text-left font-medium">Agent</th>
+                <th class="px-4 py-3 text-left font-medium">Error Type</th>
+                <th class="px-4 py-3 text-left font-medium">Description</th>
+                <th class="px-4 py-3 text-left font-medium">Status</th>
+                <th class="px-4 py-3 text-right font-medium">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-errors"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="modal-user-detail" class="hidden fixed inset-0 z-50">
+    <div id="backdrop-user" data-modal-backdrop class="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 opacity-0 transition-opacity duration-200"></div>
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-6">
+      <article class="modal-panel opacity-0 scale-95 bg-[var(--bg-surface)] rounded-lg shadow-2xl w-full max-w-lg max-h-[85vh] overflow-y-auto border border-[var(--border)]">
+        <header class="px-5 py-4 border-b border-[var(--border)] flex items-center justify-between">
+          <h3 id="user-modal-title" class="text-base font-semibold text-[var(--text-primary)]">User</h3>
+          <button id="close-modal-user" type="button" aria-label="Close modal" class="text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors duration-150 cursor-pointer text-xl leading-none">&times;</button>
+        </header>
+        <div class="p-5 grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
+          <p class="text-[var(--text-secondary)]">Full Name</p><p id="user-full-name" class="text-[var(--text-primary)]"></p>
+          <p class="text-[var(--text-secondary)]">Email</p><p id="user-email" class="text-[var(--text-primary)]"></p>
+          <p class="text-[var(--text-secondary)]">Plan</p><p id="user-plan" class="text-[var(--text-primary)]"></p>
+          <p class="text-[var(--text-secondary)]">Status</p><p id="user-status" class="text-[var(--text-primary)]"></p>
+          <p class="text-[var(--text-secondary)]">Member Since</p><p id="user-member-since" class="text-[var(--text-primary)]"></p>
+          <p class="text-[var(--text-secondary)]">Active Agents</p><p id="user-active-agents" class="text-[var(--text-primary)]"></p>
+          <p class="text-[var(--text-secondary)]">Total Spend</p><p id="user-total-spend" class="text-[var(--text-primary)]"></p>
+          <p class="text-[var(--text-secondary)]">Notes</p><p id="user-notes" class="text-[var(--text-primary)]"></p>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <div id="modal-agent-configure" class="hidden fixed inset-0 z-50">
+    <div id="backdrop-agent" data-modal-backdrop class="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 opacity-0 transition-opacity duration-200"></div>
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-6">
+      <article class="modal-panel opacity-0 scale-95 bg-[var(--bg-surface)] rounded-lg shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto border border-[var(--border)]">
+        <header class="px-5 py-4 border-b border-[var(--border)] flex items-center justify-between">
+          <div>
+            <h3 id="agent-modal-title" class="text-base font-semibold text-[var(--text-primary)]">Configure</h3>
+            <p class="text-xs text-[var(--text-secondary)] mt-1">System Prompt</p>
+          </div>
+          <button id="close-modal-agent" type="button" aria-label="Close modal" class="text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors duration-150 cursor-pointer text-xl leading-none">&times;</button>
+        </header>
+        <div class="p-5">
+          <pre id="agent-system-prompt" class="font-code text-xs bg-[var(--bg-elevated)] rounded-md p-4 text-[var(--text-secondary)] overflow-x-auto whitespace-pre-wrap"></pre>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <div id="modal-skill-detail" class="hidden fixed inset-0 z-50">
+    <div id="backdrop-skill" data-modal-backdrop class="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 opacity-0 transition-opacity duration-200"></div>
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-6">
+      <article class="modal-panel opacity-0 scale-95 bg-[var(--bg-surface)] rounded-lg shadow-2xl w-full max-w-lg max-h-[85vh] overflow-y-auto border border-[var(--border)]">
+        <header class="px-5 py-4 border-b border-[var(--border)] flex items-center justify-between">
+          <h3 id="skill-modal-title" class="text-base font-semibold text-[var(--text-primary)]">Skill</h3>
+          <button id="close-modal-skill" type="button" aria-label="Close modal" class="text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors duration-150 cursor-pointer text-xl leading-none">&times;</button>
+        </header>
+        <div class="p-5 grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
+          <p class="text-[var(--text-secondary)]">Name</p><p id="skill-name" class="text-[var(--text-primary)]"></p>
+          <p class="text-[var(--text-secondary)]">Description</p><p id="skill-description" class="text-[var(--text-primary)]"></p>
+          <p class="text-[var(--text-secondary)]">Agents Currently Using</p><p id="skill-enabled-count" class="text-[var(--text-primary)]"></p>
+          <p class="text-[var(--text-secondary)]">Date Added</p><p id="skill-date-added" class="text-[var(--text-primary)]"></p>
+          <p class="text-[var(--text-secondary)]">Permissions Required</p><p id="skill-permissions" class="text-[var(--text-primary)]"></p>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <div id="modal-contract-detail" class="hidden fixed inset-0 z-50">
+    <div id="backdrop-contract" data-modal-backdrop class="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 opacity-0 transition-opacity duration-200"></div>
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-6">
+      <article class="modal-panel opacity-0 scale-95 bg-[var(--bg-surface)] rounded-lg shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto border border-[var(--border)]">
+        <header class="px-5 py-4 border-b border-[var(--border)] flex items-center justify-between">
+          <h3 id="contract-modal-title" class="text-base font-semibold text-[var(--text-primary)]">Contract</h3>
+          <button id="close-modal-contract" type="button" aria-label="Close modal" class="text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors duration-150 cursor-pointer text-xl leading-none">&times;</button>
+        </header>
+        <div class="p-5">
+          <h4 class="text-sm font-semibold text-[var(--text-primary)]">Summary</h4>
+          <div class="mt-3 grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
+            <p class="text-[var(--text-secondary)]">Client</p><p id="contract-client" class="text-[var(--text-primary)]"></p>
+            <p class="text-[var(--text-secondary)]">Agent</p><p id="contract-agent" class="text-[var(--text-primary)]"></p>
+            <p class="text-[var(--text-secondary)]">Status</p><p id="contract-status" class="text-[var(--text-primary)]"></p>
+            <p class="text-[var(--text-secondary)]">Start Date</p><p id="contract-start" class="text-[var(--text-primary)]"></p>
+            <p class="text-[var(--text-secondary)]">End Date</p><p id="contract-end" class="text-[var(--text-primary)]"></p>
+          </div>
+
+          <hr class="border-t border-[var(--border)] my-4">
+
+          <h4 class="text-sm font-semibold text-[var(--text-primary)]">Itemized Skills</h4>
+          <table class="w-full mt-2">
+            <thead>
+              <tr class="text-xs uppercase tracking-wide text-[var(--text-secondary)] border-b border-[var(--border)]">
+                <th class="py-2 text-left font-medium">Skill</th>
+                <th class="py-2 text-right font-medium">Price</th>
+              </tr>
+            </thead>
+            <tbody id="contract-itemized"></tbody>
+          </table>
+
+          <hr class="border-t border-[var(--border)] my-4">
+
+          <div class="flex items-center justify-between text-sm font-semibold">
+            <span class="text-[var(--text-primary)]">Total</span>
+            <span id="contract-total" class="text-[var(--text-primary)]"></span>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <div id="modal-error-detail" class="hidden fixed inset-0 z-50">
+    <div id="backdrop-error" data-modal-backdrop class="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 opacity-0 transition-opacity duration-200"></div>
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-6">
+      <article class="modal-panel opacity-0 scale-95 bg-[var(--bg-surface)] rounded-lg shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto border border-[var(--border)]">
+        <header class="px-5 py-4 border-b border-[var(--border)] flex items-center justify-between">
+          <h3 id="error-modal-title" class="text-base font-semibold text-[var(--text-primary)]">Error</h3>
+          <button id="close-modal-error" type="button" aria-label="Close modal" class="text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors duration-150 cursor-pointer text-xl leading-none">&times;</button>
+        </header>
+        <div class="p-5 grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
+          <p class="text-[var(--text-secondary)]">Timestamp</p><p id="error-timestamp" class="text-[var(--text-primary)]"></p>
+          <p class="text-[var(--text-secondary)]">Agent</p><p id="error-agent" class="text-[var(--text-primary)]"></p>
+          <p class="text-[var(--text-secondary)]">Error Type</p><p><span id="error-type"></span></p>
+          <p class="text-[var(--text-secondary)]">Status</p><p id="error-status" class="text-[var(--text-primary)]"></p>
+          <p class="text-[var(--text-secondary)]">Description</p><p id="error-description" class="text-[var(--text-primary)]"></p>
+        </div>
+        <div class="px-5 pb-5">
+          <p class="text-sm font-semibold text-[var(--text-primary)] mb-2">Trace</p>
+          <pre id="error-trace" class="font-code text-xs bg-[var(--bg-elevated)] rounded-md p-4 text-[var(--text-secondary)] overflow-x-auto whitespace-pre-wrap"></pre>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <script defer src="assets/icons/icons.js"></script>
+  <script defer src="assets/js/data.js"></script>
+  <script defer src="assets/js/render.js"></script>
+  <script defer src="assets/js/nav.js"></script>
+  <script defer src="assets/js/darkmode.js"></script>
+  <script defer src="assets/js/dropdowns.js"></script>
+  <script defer src="assets/js/modals.js"></script>
+  <script defer src="assets/js/interactions.js"></script>
+</body>
+</html>
